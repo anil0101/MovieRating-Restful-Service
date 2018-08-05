@@ -1,0 +1,4 @@
+{
+  "modelPackage" : "swagger.model",
+  "apiPackage" : "swagger.api"
+}

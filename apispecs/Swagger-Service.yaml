@@ -1,0 +1,238 @@
+swagger: '2.0'
+info:
+  description: This is a movie rating service
+  version: 1.0.0
+  title: Movie Rating Service
+  license:
+    name: Oracle
+    url: 'http://www.oracle.org/licenses/LICENSE-2.0.html'
+host: swagger
+basePath: /v1
+schemes:
+- https
+paths:
+  /movies:
+    put:
+      tags:
+      - Movie information
+      summary: information about a movie
+      description: Details of a movie
+      operationId: createMovie
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: body of the movies
+        required: true
+        schema:
+          $ref: '#/definitions/MovieModelPut'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '400':
+          description: bad request
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        default:
+          description: default response message
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+    get:
+      tags:
+      - Movie information
+      summary: information about a movie.
+      description: Details of a movie
+      operationId: outputMovie
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/MovieModelGet'
+  /ratings:
+    put:
+      tags:
+      - rating information
+      summary: rating given by user for a particular movie.
+      description: movie rating
+      operationId: createRating
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: body of the movies
+        required: true
+        schema:
+          $ref: '#/definitions/RatingModel'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '400':
+          description: bad request
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        default:
+          description: default response message
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+  /users:
+    put:
+      tags:
+      - User information
+      summary: user information
+      description: Information regarding a particular user
+      operationId: createUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: body of the movies
+        required: true
+        schema:
+          $ref: '#/definitions/UserModelPut'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '400':
+          description: bad request
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        '500':
+          description: internal server error
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+        default:
+          description: default response message
+          schema:
+            $ref: '#/definitions/ResponseMessage'
+    get:
+      tags:
+      - User information
+      summary: user information
+      description: information of all the users
+      operationId: outputUser
+      produces:
+      - application/json
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/UserModelGet'
+
+definitions:
+  MovieModelPut:
+    type: object
+    properties:
+      movieName:
+        type: string
+      actor:
+        type: string
+      actress:
+        type: string
+      year:
+        type: integer
+        format: int32
+    required:
+    - movieName
+    - actor
+    - actress
+
+  MovieModelGet:
+    type: array
+    items:
+      type: object
+      properties:
+        movieName:
+          type: string
+        actor:
+          type: string
+        actress:
+          type: string
+        year:
+          type: integer
+          format: int32
+        averageRating:
+          type: number
+          format: double
+        rating:
+          type: array
+          items:
+            type: object
+            properties:
+              movieRating:
+                type: integer
+                format: int32
+              comment:
+                type: string
+
+  RatingModel:
+    type: object
+    properties:
+      userId:
+        type: integer
+        format: int64
+      movieId:
+        type: integer
+        format: int64
+      movieRating:
+        type: integer
+        format: int32
+      comment:
+        type: string
+    required:
+    - userId
+    - movieId
+    - userRating
+
+  UserModelPut:
+    type: object
+    properties:
+      userName:
+        type: string
+    required:
+    - userName
+
+  UserModelGet:
+    type: array
+    items:
+      type: object
+      properties:
+        userName:
+          type: string
+      required:
+      - userName
+
+  ResponseMessage:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    required:
+    - code
+    - message
